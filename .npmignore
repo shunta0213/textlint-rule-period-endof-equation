@@ -1,0 +1,23 @@
+# Source files
+src/
+*.test.ts
+*.test.js
+
+# Development files
+jest.config.js
+tsconfig.json
+.eslintrc.json
+
+# Node modules and build artifacts
+node_modules/
+coverage/
+
+# Git and editor files
+.git/
+.gitignore
+*.log
+
+# Development dependencies
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
