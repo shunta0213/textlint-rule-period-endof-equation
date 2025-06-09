@@ -2,6 +2,7 @@ import { TextlintRuleModule } from "@textlint/types";
 
 interface Options {
   allowedMathEnvironments?: string[];
+  allowedPunctuation?: string[];
 }
 
 const reporter: TextlintRuleModule<Options> = (context, options = {}) => {
@@ -14,6 +15,14 @@ const reporter: TextlintRuleModule<Options> = (context, options = {}) => {
     "multline",
     "split",
     "eqnarray",
+  ];
+
+  const allowedPunctuation = options.allowedPunctuation || [
+    ".",
+    ",",
+    ";",
+    "!",
+    "?",
   ];
 
   // Regex patterns for different LaTeX math environments
@@ -43,8 +52,10 @@ const reporter: TextlintRuleModule<Options> = (context, options = {}) => {
           const startIndex = match.index;
           const endIndex = startIndex + fullMatch.length;
 
-          // Check if the math environment ends with a period
-          if (!hasPeriodAtEnd(mathContent, fullMatch)) {
+          // Check if the math environment ends with punctuation
+          if (
+            !hasPunctuationAtEnd(mathContent, fullMatch, allowedPunctuation)
+          ) {
             // For environment-based math, we want to insert before \end{...}
             let insertIndex = endIndex - 1;
             if (fullMatch.includes("\\end{")) {
@@ -55,7 +66,7 @@ const reporter: TextlintRuleModule<Options> = (context, options = {}) => {
             }
 
             const error = new RuleError(
-              "LaTeX math environment should end with a period",
+              "LaTeX math environment should end with punctuation",
               {
                 index: insertIndex,
                 fix: context.fixer
@@ -74,17 +85,21 @@ const reporter: TextlintRuleModule<Options> = (context, options = {}) => {
   };
 };
 
-function hasPeriodAtEnd(mathContent: string, fullMatch: string): boolean {
+function hasPunctuationAtEnd(
+  mathContent: string,
+  fullMatch: string,
+  allowedPunctuation: string[]
+): boolean {
   // Clean up the math content by removing whitespace and LaTeX commands at the end
   const trimmedContent = mathContent.trim();
 
-  // Check if it already ends with a period
-  if (trimmedContent.endsWith(".")) {
-    return true;
-  }
+  // Check if it ends with any of the allowed punctuation marks
+  const escapedPunctuation = allowedPunctuation.map((p) =>
+    p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+  );
+  const punctuationRegex = new RegExp(`[${escapedPunctuation.join("")}]$`);
 
-  // Check if it ends with other punctuation that might be acceptable
-  if (trimmedContent.match(/[.!?;,]$/)) {
+  if (punctuationRegex.test(trimmedContent)) {
     return true;
   }
 

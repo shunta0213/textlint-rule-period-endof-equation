@@ -1,12 +1,12 @@
-# textlint-rule-period-end-of-equation
+# textlint-rule-punctuation-end-of-equation
 
-A textlint rule to enforce periods at the end of LaTeX math environments in academic writing.
+A textlint rule to enforce punctuation at the end of LaTeX math environments in academic writing.
 
 ## Installation
 
 ### From npm (when published)
 ```bash
-npm install textlint-rule-period-end-of-equation
+npm install textlint-rule-punctuation-end-of-equation
 ```
 
 ### Local development/usage
@@ -30,7 +30,7 @@ npm install textlint-rule-period-end-of-equation
    npm link
    
    # In your document directory
-   npm link textlint-rule-period-end-of-equation
+   npm link textlint-rule-punctuation-end-of-equation
    ```
 
 4. **Create a `.textlintrc` file in your document directory:**
@@ -38,7 +38,7 @@ npm install textlint-rule-period-end-of-equation
    {
      "plugins": ["@textlint/markdown"],
      "rules": {
-       "period-end-of-equation": true
+       "punctuation-end-of-equation": true
      }
    }
    ```
@@ -57,17 +57,23 @@ npm install textlint-rule-period-end-of-equation
 
 ## Configuration Options
 
-You can customize which math environments to check:
+You can customize which math environments and punctuation marks to check:
 
 ```json
 {
   "rules": {
-    "period-end-of-equation": {
-      "allowedMathEnvironments": ["equation", "align", "gather", "multline"]
+    "punctuation-end-of-equation": {
+      "allowedMathEnvironments": ["equation", "align", "gather", "multline"],
+      "allowedPunctuation": [".", ",", ";", "!", "?"]
     }
   }
 }
 ```
+
+### Options
+
+- `allowedMathEnvironments` (default: `["equation", "align", "gather", "multline", "split", "eqnarray"]`): LaTeX math environments to check
+- `allowedPunctuation` (default: `[".", ",", ";", "!", "?"]`): Punctuation marks considered valid at the end of equations
 
 ## Alternative: Direct usage without global installation
 
@@ -78,7 +84,7 @@ If you prefer not to install textlint globally:
    # In your document directory
    npm init -y
    npm install textlint @textlint/textlint-plugin-markdown
-   npm link textlint-rule-period-end-of-equation
+   npm link textlint-rule-punctuation-end-of-equation
    ```
 
 2. **Add scripts to your `package.json`:**
@@ -99,7 +105,7 @@ If you prefer not to install textlint globally:
 
 ## What it checks
 
-This rule enforces periods at the end of LaTeX math environments:
+This rule enforces punctuation at the end of LaTeX math environments:
 
 - Display math: `$$...$$`
 - Display math: `\[...\]`
@@ -110,11 +116,18 @@ This rule enforces periods at the end of LaTeX math environments:
 ```latex
 This is correct: $$x = y + z.$$
 
-Another correct example: \[a = b + c.\]
+With comma: $$f(x) = x^2,$$
+
+With semicolon: \[a = b + c;\]
 
 \begin{equation}
 E = mc^2.
 \end{equation}
+
+\begin{align}
+x &= y + z, \\
+a &= b + c.
+\end{align}
 ```
 
 ### Invalid examples

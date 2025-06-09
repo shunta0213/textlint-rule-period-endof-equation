@@ -1,7 +1,7 @@
 {
-  "name": "textlint-rule-period-end-of-equation",
+  "name": "textlint-rule-punctuation-end-of-equation",
   "version": "1.0.0",
-  "description": "Textlint rule to enforce periods at the end of LaTeX math environments",
+  "description": "Textlint rule to enforce punctuation at the end of LaTeX math environments",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
@@ -21,12 +21,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shunta0213/textlint-rule-period-end-of-equation.git"
+    "url": "git+https://github.com/shunta0213/textlint-rule-punctuation-end-of-equation.git"
   },
   "bugs": {
-    "url": "https://github.com/shunta0213/textlint-rule-period-end-of-equation/issues"
+    "url": "https://github.com/shunta0213/textlint-rule-punctuation-end-of-equation/issues"
   },
-  "homepage": "https://github.com/shunta0213/textlint-rule-period-end-of-equation#readme",
+  "homepage": "https://github.com/shunta0213/textlint-rule-punctuation-end-of-equation#readme",
   "files": [
     "lib/**/*",
     "README.md",
